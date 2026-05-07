@@ -1,11 +1,79 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
-
+from django.db.models import Q
+from django.core.paginator import Paginator
 # 📌 READ (List)
-def student_list(request):
-    students = Student.objects.all()
-    return render(request, 'student_list.html', {'students': students})
+# def student_list(request):
+#     students = Student.objects.all()
+#     return render(request, 'student_list.html', {'students': students})
 
+# def student_list(request):
+
+#     query = request.GET.get('q')
+
+#     students = Student.objects.all()
+
+#     if query:
+#         students = students.filter(
+#             Q(name__icontains=query) |
+#             Q(roll_no__icontains=query) |
+#             Q(city__icontains=query) |
+#             Q(student_class__icontains=query)
+#         )
+
+#     context = {
+#         'students': students
+#     }
+
+#     return render(request, 'student_list.html', context)
+
+
+def student_list(request):
+
+    students = Student.objects.all().order_by('id')
+
+    # SEARCH
+    query = request.GET.get('q')
+
+    if query:
+        students = students.filter(
+            Q(name__icontains=query) |
+            Q(roll_no__icontains=query) |
+            Q(city__icontains=query) |
+            Q(student_class__icontains=query)
+        )
+
+    # FILTER BY NAME
+    name = request.GET.get('name')
+
+    if name:
+        students = students.filter(name__icontains=name)
+
+    # FILTER BY ADDRESS
+    address = request.GET.get('address')
+
+    if address:
+        students = students.filter(address__icontains=address)
+
+    # FILTER BY DATE
+    date = request.GET.get('date')
+
+    if date:
+        students = students.filter(created_at=date)
+
+    # PAGINATION
+    paginator = Paginator(students, 5)
+
+    page_number = request.GET.get('page')
+
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'students': page_obj,
+        'page_obj': page_obj,
+    }
+
+    return render(request, 'student_list.html', context)
 
 # 📌 CREATE
 def add_student(request):
