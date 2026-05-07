@@ -14,4 +14,28 @@ Step 7:- Create Super User
 Step 8:- Create A Model Of Students
 Step 9:- Create URLS And VIEWS File 
 Step 10:- Create HTML Pages For Froontend To Represent All The Data And Performe CRUD Operation  
- 
+Step 11:- Create a Seed File 
+                  students/
+                  │
+                  ├── management/
+                  │   ├── __init__.py
+                  │   └── commands/
+                  │       ├── __init__.py
+                  │       └── seed_students.py
+
+         students/management/commands/seed_students.py
+
+         Enter Student Seeded data
+
+Step 12:- Run Migrations First
+            python manage.py makemigrations
+            python manage.py migrate
+
+Step 13:- Run Seeder Command
+            python manage.py seed_students
+
+Step 14:- Add a serching where we can search using name , rool no , city , class 
+            Updating View.py and HTML File
+
+Step 15:- Adding Filter And Paginator
+         Updating View.py and HTML File
