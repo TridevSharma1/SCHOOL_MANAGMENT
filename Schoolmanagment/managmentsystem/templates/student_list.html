@@ -5,65 +5,33 @@
 <h2 class="mb-4">Student List</h2>
 
 
-<!-- SEARCH + FILTER FORM -->
+<!-- SEARCH BAR -->
 
 <form method="GET" class="mb-4">
 
     <div class="row g-2">
 
         <!-- SEARCH -->
-        <div class="col-md-3">
+        <div class="col-md-10">
             <input
                 type="text"
                 name="q"
                 class="form-control"
-                placeholder="Search..."
+                placeholder="Search by Name, Class, Roll No or City..."
                 value="{{ request.GET.q }}"
             >
         </div>
 
-        <!-- NAME FILTER -->
-        <div class="col-md-2">
-            <input
-                type="text"
-                name="name"
-                class="form-control"
-                placeholder="Filter Name"
-                value="{{ request.GET.name }}"
-            >
-        </div>
-
-        <!-- ADDRESS FILTER -->
-        <div class="col-md-2">
-            <input
-                type="text"
-                name="address"
-                class="form-control"
-                placeholder="Filter Address"
-                value="{{ request.GET.address }}"
-            >
-        </div>
-
-        <!-- DATE FILTER -->
-        <div class="col-md-2">
-            <input
-                type="date"
-                name="date"
-                class="form-control"
-                value="{{ request.GET.date }}"
-            >
-        </div>
-
-        <!-- FILTER BUTTON -->
+        <!-- SEARCH BUTTON -->
         <div class="col-md-1">
             <button type="submit"
                     class="btn btn-primary w-100">
-                Go
+                Search
             </button>
         </div>
 
         <!-- RESET BUTTON -->
-        <div class="col-md-2">
+        <div class="col-md-1">
             <a href="{% url 'student_list' %}"
                class="btn btn-secondary w-100">
                Reset
