@@ -40,7 +40,8 @@ def student_list(request):
             Q(name__icontains=query) |
             Q(student_class__icontains=query) |
             Q(roll_no__icontains=query) |
-            Q(city__icontains=query)
+            Q(city__icontains=query) |
+            Q(email__icontains=query)
         )
 
     # PAGINATION
@@ -60,15 +61,22 @@ def student_list(request):
 # 📌 CREATE
 def add_student(request):
     if request.method == "POST":
-        Student.objects.create(
+        student = Student.objects.create(
             name=request.POST.get('name'),
             student_class=request.POST.get('student_class'),
             city=request.POST.get('city'),
             age=request.POST.get('age'),
             address=request.POST.get('address'),
             roll_no=request.POST.get('roll_no'),
+            email=request.POST.get('email'),
             image=request.FILES.get('image')
         )
+        # Send email
+        subject = 'Welcome to School Management System'
+        message = f'Hello {student.name},\n\nYou have been successfully registered in our School Management System.\n\nDetails:\nName: {student.name}\nRoll No: {student.roll_no}\nClass: {student.student_class}\n\nThank you!'
+        from_email = 'tridevx9@gmail.com'
+        recipient_list = [student.email]
+        send_mail(subject, message, from_email, recipient_list)
         return redirect('student_list')
 
     return render(request, 'add_student.html')
@@ -85,6 +93,7 @@ def update_student(request, id):
         student.age = request.POST.get('age')
         student.address = request.POST.get('address')
         student.roll_no = request.POST.get('roll_no')
+        student.email = request.POST.get('email')
 
         if request.FILES.get('image'):
             student.image = request.FILES.get('image')
