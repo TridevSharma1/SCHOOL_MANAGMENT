@@ -131,3 +131,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] ##Fourth Changes
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'tridevx9@gmail.com'
+EMAIL_HOST_PASSWORD = 'ngwf ojdy iyde rlrx'
+EMAIL_USE_TLS = True

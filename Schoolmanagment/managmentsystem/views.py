@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.core.mail import send_mail
 # 📌 READ (List)
 # def student_list(request):
 #     students = Student.objects.all()
@@ -27,7 +28,6 @@ from django.core.paginator import Paginator
 
 #     return render(request, 'student_list.html', context)
 
-
 def student_list(request):
 
     students = Student.objects.all().order_by('id')
@@ -38,28 +38,10 @@ def student_list(request):
     if query:
         students = students.filter(
             Q(name__icontains=query) |
+            Q(student_class__icontains=query) |
             Q(roll_no__icontains=query) |
-            Q(city__icontains=query) |
-            Q(student_class__icontains=query)
+            Q(city__icontains=query)
         )
-
-    # FILTER BY NAME
-    name = request.GET.get('name')
-
-    if name:
-        students = students.filter(name__icontains=name)
-
-    # FILTER BY ADDRESS
-    address = request.GET.get('address')
-
-    if address:
-        students = students.filter(address__icontains=address)
-
-    # FILTER BY DATE
-    date = request.GET.get('date')
-
-    if date:
-        students = students.filter(created_at=date)
 
     # PAGINATION
     paginator = Paginator(students, 5)
@@ -118,3 +100,16 @@ def delete_student(request, id):
     student = get_object_or_404(Student, id=id)
     student.delete()
     return redirect('student_list')
+
+# 📌 SEND TEST EMAIL
+def send_test_email(request):
+    subject = 'Test Email'
+    message = 'This is a test email sent from Django.'
+    from_email = 'tridevx9@gmail.com'
+    recipient_list = ['geuvizegebre-9696@yopmail.com']  # Replace with actual recipient email
+
+    try:
+        send_mail(subject, message, from_email, recipient_list)
+        return render(request, 'email_sent.html', {'message': 'Test email sent successfully!'})
+    except Exception as e:
+        return render(request, 'email_sent.html', {'message': f'Error sending email: {str(e)}'})
