@@ -73,7 +73,7 @@ def add_student(request):
         )
         # Send email
         subject = 'Welcome to School Management System'
-        message = f'Hello {student.name},\n\nYou have been successfully registered in our School Management System.\n\nDetails:\nName: {student.name}\nRoll No: {student.roll_no}\nClass: {student.student_class}\n\nThank you!'
+        message = f'Hello {student.name},\n\nYou have been successfully registered in our School Management System.\n\nDetails:\nName: {student.name}\nRoll No: {student.roll_no}\nClass: {student.student_class}\nCity: {student.city}\nEmail: {student.email}\nAge: {student.age}\nAddress: {student.address}\n\nThank you!'
         from_email = 'tridevx9@gmail.com'
         recipient_list = [student.email]
         send_mail(subject, message, from_email, recipient_list)
